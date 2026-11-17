@@ -1,3 +1,49 @@
+# Frontend instructions
+
+These instructions supplement `../AGENTS.md` for `frontend/`. Preserve the Vite+ toolchain guidance below.
+
+## Current stack and layout
+- React 19, strict TypeScript, TanStack Start with file-based TanStack Router, TanStack Query, Tailwind CSS 4, and Nitro.
+- `src/routes/`: route files; `__root.tsx` defines the shared document/layout.
+- `src/router.tsx`: router setup; `src/integrations/tanstack-query/`: query integration.
+- `src/components/ui/`: reusable UI primitives; `src/lib/`: shared utilities; `src/styles.css`: shared styles.
+- Use configured `#/*` or `@/*` aliases consistently with surrounding code.
+- Add feature modules when needed, but preserve file-based routing under `src/routes/`. Do not reorganize unrelated files or add a second router/state library.
+- Do not edit `src/routeTree.gen.ts` by hand; regenerate through the configured tooling (`vp run generate-routes` invokes the build).
+
+## API and server rendering
+- Browser API requests use relative `/api/...` URLs. `vite.config.ts` removes `/api` and forwards requests to `API_PROXY_TARGET` or `https://localhost:7045` in development.
+- The current sample is `/api/weatherforecast` in the browser and `/weatherforecast` on the backend. Do not assume versioned routes exist.
+- Development certificate verification is disabled only in the local proxy. Production requires a deliberate API routing/proxy arrangement; Vite's dev proxy is not production configuration.
+- Centralize shared backend request/error handling when adding real features. Keep response types aligned with backend DTOs; do not assume an API generator exists.
+- TanStack Start renders on the server: keep browser-only APIs out of server execution and secrets out of client bundles. Do not move backend business rules into frontend server functions.
+- Keep server query clients and authenticated caches isolated per request/user. Never share one user's data through module-level mutable server state.
+- When authentication is implemented, handle credentials and CSRF according to the backend contract. Never store session secrets in localStorage.
+- Handle authentication, permission, validation, and edit-conflict responses explicitly; route guards do not replace backend authorization.
+
+## State and UI
+- Use TanStack Query for server data and integrate route loaders with existing query setup where appropriate. Include workspace and relevant filters in query keys.
+- Clear affected caches on logout or identity/workspace changes. Use optimistic mutations only with rollback and conflict handling.
+- Prefer local React state for transient UI. Do not add Zustand or duplicate server data in a client store without a demonstrated requirement.
+- Reuse existing UI primitives, Tailwind tokens, and utility conventions. Avoid `any`, unsafe casts, and duplicated contract types.
+- Handle loading, empty, error, and success states for data-driven views. Provide useful field-level validation feedback; Zod and TanStack Form are available if suitable.
+- Use semantic controls, labels, visible keyboard focus, accessible dialogs, and responsive layouts. Check affected desktop/mobile widths for visual changes.
+- Convert UTC timestamps at the display boundary and keep formatting consistent.
+
+## Commands and completion
+Run from `frontend/`:
+```sh
+vp install
+vp run dev
+vp run build
+vp check
+```
+- `vp run dev` uses the package script with port 3000; `vp run build` builds the TanStack Start/Nitro application.
+- The production start script is `vp run start` after building; do not assume this app is a static-only Vite build.
+- Use `vp test` for relevant tests once present. No frontend test suite or Playwright configuration is currently established; do not claim coverage or invoke nonexistent npm scripts.
+- Add behavior-oriented tests for important changed interactions when test tooling is established. Avoid large snapshots that merely mirror markup.
+- Report build/check/test outcomes, visual verification for UI changes, and any missing setup. Documentation-only changes do not require running the application.
+
 <!--VITE PLUS START-->
 
 # Using Vite+, the Unified Toolchain for the Web
