@@ -2,14 +2,14 @@
 
 TeamFlow is a full-stack project and issue management application being built to help teams organize work across separate workspaces. Its intended scope includes projects, issues, sprints, comments, notifications, and reporting, with workspace membership and role-based permissions.
 
-The project is in its initial scaffolding stage. The frontend and backend can run together locally; business features, authentication, and database persistence are still to be implemented.
+The frontend and backend can run together locally. The backend includes the entity model for the planned features. Business workflows, authentication, and database persistence are still to be implemented.
 
 ## Current status
 
 | Area | Current state |
 | --- | --- |
 | API | ASP.NET Core controller API with a sample weather endpoint, development OpenAPI, and Scalar |
-| Backend layers | Domain, Application, and Infrastructure projects created; business implementation pending |
+| Backend layers | Domain entities and enums, plus Infrastructure models for the issue sequence, outbox, and Identity user profile |
 | Background processing | Worker project scaffolded |
 | Frontend | TanStack Start application with routing, query integration, Tailwind styling, and reusable UI primitives |
 | Local workflow | One command starts the frontend and API together |
@@ -76,6 +76,8 @@ The backend is organized around Clean Architecture boundaries:
 - **Worker:** background processing when required by implemented features.
 
 These boundaries describe the intended implementation; the scaffold does not yet wire all layer dependencies. Business rules and workspace authorization belong on the backend. The frontend owns presentation, user interaction, and server-data caching.
+
+Business entities hold user and workspace identifiers. Infrastructure uses the ASP.NET Core shared framework for `ApplicationUser` and its inherited Identity fields. Future EF Core mappings will define keys, tenant-scoped foreign keys, indexes, and concurrency behavior.
 
 The frontend uses TanStack Start with server rendering and a Nitro production server. Routes live in `frontend/src/routes/`; the tooling generates the route tree.
 

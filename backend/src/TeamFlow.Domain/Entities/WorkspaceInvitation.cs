@@ -12,8 +12,7 @@ public class WorkspaceInvitation
   public WorkspaceRole Role { get; set; }
   public string TokenHash { get; set; } = string.Empty;
   public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-  public DateTimeOffset? ExpiresAt { get; set; }
+  public required DateTimeOffset ExpiresAt { get; set; }
   public DateTimeOffset? AcceptedAt { get; set; }
   public DateTimeOffset? RevokedAt { get; set; }
-
 }
