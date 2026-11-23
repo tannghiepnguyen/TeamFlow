@@ -10,4 +10,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="11.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TeamFlow.Application\TeamFlow.Application.csproj" />
+    <ProjectReference Include="..\TeamFlow.Infrastructure\TeamFlow.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>

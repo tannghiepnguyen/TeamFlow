@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="11.0.0" />
+    <ProjectReference Include="..\TeamFlow.Application\TeamFlow.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -141,7 +141,7 @@ Primary key `Id` with tenant-scoped issue FK and author user FK. Body is require
 
 Location: `TeamFlow.Domain/Entities`.
 
-Primary key `Id`, tenant alternate key `(WorkspaceId, Id)`, and case-insensitive uniqueness on `(WorkspaceId, Name)`. Reference the workspace. Validate `Color` as `#RRGGBB`.
+Primary key `Id` and tenant alternate key `(WorkspaceId, Id)`. Enforce case-insensitive uniqueness with a unique index on `(WorkspaceId, NormalizedName)` using a database-generated `lower(Name)` field. Reference the workspace and validate `Color` as `#RRGGBB`.
 
 | Property | C# type | PostgreSQL type | Enum values |
 | --- | --- | --- | --- |

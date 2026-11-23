@@ -1,6 +1,6 @@
 # Verification and acceptance
 
-The checkout has scaffold test projects and no established frontend test suite. Use the commands below to check the current checkout. Add meaningful assertions as releases implement the [functional requirements](../requirements/user-stories.md) and [quality targets](../requirements/scope.md).
+The backend integration test project checks PostgreSQL schema generation using a test-only context. The checks run without a database connection. Architecture tests verify the direct references declared in the production project files. Unit coverage is scaffolded, and the frontend test suite is planned. Add behavioral tests as releases implement the [functional requirements](../requirements/user-stories.md) and [quality targets](../requirements/scope.md).
 
 ## Current checks
 
@@ -9,7 +9,14 @@ From the repository root:
 ```powershell
 dotnet restore backend/TeamFlow.slnx
 dotnet build backend/TeamFlow.slnx --no-restore
-dotnet test backend/TeamFlow.slnx --no-build
+```
+
+Run the built test assemblies directly with the current Microsoft Testing Platform setup:
+
+```powershell
+dotnet backend/tests/TeamFlow.IntegrationTests/bin/Debug/net11.0/TeamFlow.IntegrationTests.dll
+dotnet backend/tests/TeamFlow.UnitTests/bin/Debug/net11.0/TeamFlow.UnitTests.dll
+dotnet backend/tests/TeamFlow.ArchitectureTests/bin/Debug/net11.0/TeamFlow.ArchitectureTests.dll
 ```
 
 From `frontend/`:

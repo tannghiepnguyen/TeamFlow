@@ -9,12 +9,12 @@ The frontend and backend can run together locally. The backend includes the enti
 | Area | Current state |
 | --- | --- |
 | API | ASP.NET Core controller API with a sample weather endpoint, development OpenAPI, and Scalar |
-| Backend layers | Domain entities and enums, plus Infrastructure models for the issue sequence, outbox, and Identity user profile |
+| Backend layers | Domain entities and enums, plus Infrastructure models and EF Core configurations for the 16 TeamFlow models and custom Identity user fields |
 | Background processing | Worker project scaffolded |
 | Frontend | TanStack Start application with routing, query integration, Tailwind styling, and reusable UI primitives |
 | Local workflow | One command starts the frontend and API together |
-| Tests | Unit, integration, and architecture test projects scaffolded; meaningful coverage pending |
-| Identity and persistence | ASP.NET Core Identity, workspace authorization, EF Core, and PostgreSQL planned |
+| Tests | PostgreSQL schema generation tests for the initial mappings, plus scaffold tests |
+| Identity and persistence | Initial EF Core/Npgsql mappings. Identity services, workspace authorization, an application DbContext, and database setup are planned |
 
 ## Technology
 
@@ -75,9 +75,9 @@ The backend is organized around Clean Architecture boundaries:
 - **API:** HTTP endpoints, request/response mapping, and dependency injection composition.
 - **Worker:** background processing when required by implemented features.
 
-These boundaries describe the intended implementation; the scaffold does not yet wire all layer dependencies. Business rules and workspace authorization belong on the backend. The frontend owns presentation, user interaction, and server-data caching.
+The production projects follow the [direct references in the architecture overview](doc/architecture/overview.md#layer-boundaries). Business rules and workspace authorization belong on the backend. The frontend owns presentation, user interaction, and server-data caching.
 
-Business entities hold user and workspace identifiers. Infrastructure uses the ASP.NET Core shared framework for `ApplicationUser` and its inherited Identity fields. Future EF Core mappings will define keys, tenant-scoped foreign keys, indexes, and concurrency behavior.
+Business entities hold user and workspace identifiers. EF Core mappings define keys, tenant-scoped foreign keys, indexes, and the issue concurrency token. ASP.NET Core Identity supplies its own standard entity mappings and Infrastructure configures the additional user fields. See [Database migrations](doc/database/migrations.md) for context registration and verification.
 
 The frontend uses TanStack Start with server rendering and a Nitro production server. Routes live in `frontend/src/routes/`; the tooling generates the route tree.
 
@@ -177,8 +177,9 @@ Backend, from the repository root:
 ```sh
 dotnet restore backend/TeamFlow.slnx
 dotnet build backend/TeamFlow.slnx --no-restore
-dotnet test backend/TeamFlow.slnx --no-build
 ```
+
+Run the built test assemblies listed in [Verification and acceptance](doc/development/testing.md).
 
 Frontend, from `frontend/`:
 
@@ -187,7 +188,7 @@ vp check
 vp run build
 ```
 
-`vp check` runs the configured formatting, lint, and TypeScript checks. Use `vp test` for relevant frontend tests once a suite is established. There are currently no frontend npm lint, typecheck, or test scripts. The backend test projects contain placeholder tests; passing them does not establish business-feature coverage.
+`vp check` runs the configured formatting, lint, and TypeScript checks. Use `vp test` for relevant frontend tests once a suite is established. There are currently no frontend npm lint, typecheck, or test scripts.
 
 Use `vp run <script>` for package scripts: for example, `vp run dev` preserves the configured port 3000. Vite+ built-in commands and package scripts can have different behavior.
 
