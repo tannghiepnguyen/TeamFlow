@@ -9,6 +9,7 @@ public sealed class IssueAttachmentConfiguration : IEntityTypeConfiguration<Issu
 {
   public void Configure(EntityTypeBuilder<IssueAttachment> builder)
   {
+    builder.ToTable(nameof(IssueAttachment));
     builder.HasKey(attachment => attachment.Id);
 
     builder.Property(attachment => attachment.OriginalFileName).IsRequired().HasMaxLength(255);

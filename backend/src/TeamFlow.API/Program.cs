@@ -1,12 +1,20 @@
+using System.Text.Json.Serialization;
 using Scalar.AspNetCore;
+using TeamFlow.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.ConfigureDatabase(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 

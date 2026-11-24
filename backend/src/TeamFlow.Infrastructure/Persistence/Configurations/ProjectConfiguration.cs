@@ -9,6 +9,7 @@ public sealed class ProjectConfiguration : IEntityTypeConfiguration<Project>
 {
   public void Configure(EntityTypeBuilder<Project> builder)
   {
+    builder.ToTable(nameof(Project));
     builder.HasKey(project => project.Id);
     builder.HasAlternateKey(project => new { project.WorkspaceId, project.Id });
 

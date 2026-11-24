@@ -9,6 +9,7 @@ public sealed class NotificationConfiguration : IEntityTypeConfiguration<Notific
 {
   public void Configure(EntityTypeBuilder<Notification> builder)
   {
+    builder.ToTable(nameof(Notification));
     builder.HasKey(notification => notification.Id);
 
     builder.Property(notification => notification.Type).HasConversion<string>().HasMaxLength(60);

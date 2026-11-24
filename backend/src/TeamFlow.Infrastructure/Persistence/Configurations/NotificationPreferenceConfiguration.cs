@@ -9,6 +9,7 @@ public sealed class NotificationPreferenceConfiguration : IEntityTypeConfigurati
 {
   public void Configure(EntityTypeBuilder<NotificationPreference> builder)
   {
+    builder.ToTable(nameof(NotificationPreference));
     builder.HasKey(preference => new { preference.UserId, preference.EventType });
 
     builder.Property(preference => preference.EventType).IsRequired().HasMaxLength(60);

@@ -9,6 +9,7 @@ public sealed class IssueConfiguration : IEntityTypeConfiguration<Issue>
 {
   public void Configure(EntityTypeBuilder<Issue> builder)
   {
+    builder.ToTable(nameof(Issue));
     builder.HasKey(issue => issue.Id);
     builder.HasAlternateKey(issue => new { issue.WorkspaceId, issue.Id });
 

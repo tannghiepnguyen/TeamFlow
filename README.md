@@ -2,7 +2,7 @@
 
 TeamFlow is a full-stack project and issue management application being built to help teams organize work across separate workspaces. Its intended scope includes projects, issues, sprints, comments, notifications, and reporting, with workspace membership and role-based permissions.
 
-The frontend and backend can run together locally. The backend includes the entity model for the planned features. Business workflows, authentication, and database persistence are still to be implemented.
+The frontend and backend can run together locally. The backend includes the entity model, PostgreSQL schema migration, and optional development seed data. Business workflows and authentication are still to be implemented.
 
 ## Current status
 
@@ -13,8 +13,8 @@ The frontend and backend can run together locally. The backend includes the enti
 | Background processing | Worker project scaffolded |
 | Frontend | TanStack Start application with routing, query integration, Tailwind styling, and reusable UI primitives |
 | Local workflow | One command starts the frontend and API together |
-| Tests | PostgreSQL schema generation tests for the initial mappings, plus scaffold tests |
-| Identity and persistence | Initial EF Core/Npgsql mappings. Identity services, workspace authorization, an application DbContext, and database setup are planned |
+| Tests | PostgreSQL schema tests and opt-in PostgreSQL seeding tests, plus scaffold tests |
+| Identity and persistence | A unified EF Core context, initial PostgreSQL migration, and opt-in demo records. Identity services and workspace authorization are planned |
 
 ## Technology
 
@@ -90,7 +90,7 @@ The frontend uses TanStack Start with server rendering and a Nitro production se
 - A .NET SDK capable of building `net11.0` projects. Check installed SDKs with `dotnet --list-sdks`.
 - Vite+ installed with `vp` on PATH. On Windows, the combined launcher invokes `vp.exe`.
 
-The frontend declares pnpm `12.21.0` in `frontend/package.json` and includes a pnpm lockfile. Use Vite+ for frontend dependency management and commands. PostgreSQL and Docker are not required to run the current scaffold; no database setup or Compose file is configured yet.
+The frontend declares pnpm `12.21.0` in `frontend/package.json` and includes a pnpm lockfile. Use Vite+ for frontend dependency management and commands. PostgreSQL is optional for the sample API. See [Database migrations](doc/database/migrations.md) to create and seed a local database.
 
 ### Initial setup
 
@@ -168,7 +168,7 @@ Restart the frontend after changing this value. The proxy is configured in `fron
 
 The current API does not establish a versioned `/api/v1` convention. If endpoint prefixes change, update backend routes, the proxy, and frontend callers together.
 
-Keep secrets out of source control and browser bundles. Database connections and authentication settings will need documentation as those features are introduced.
+Keep secrets out of source control and browser bundles. The API reads its PostgreSQL connection from `ConnectionStrings:TeamFlow`, with `ConnectionStrings:DefaultConnection` as a fallback.
 
 ## Build and validation
 

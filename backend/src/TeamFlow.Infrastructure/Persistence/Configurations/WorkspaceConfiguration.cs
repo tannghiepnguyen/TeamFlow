@@ -9,6 +9,7 @@ public sealed class WorkspaceConfiguration : IEntityTypeConfiguration<Workspace>
 {
   public void Configure(EntityTypeBuilder<Workspace> builder)
   {
+    builder.ToTable(nameof(Workspace));
     builder.HasKey(workspace => workspace.Id);
 
     builder.Property(workspace => workspace.Name).IsRequired().HasMaxLength(150);

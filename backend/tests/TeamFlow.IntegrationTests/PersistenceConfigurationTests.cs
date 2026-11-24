@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TeamFlow.Domain.Entities;
-using TeamFlow.Infrastructure.Identity;
-using TeamFlow.Infrastructure.Persistence.Configurations;
+using TeamFlow.Infrastructure.Persistence;
 
 namespace TeamFlow.IntegrationTests;
 
@@ -12,7 +9,7 @@ public class PersistenceConfigurationTests
   [Fact]
   public void PostgreSqlSchemaDefinesKeyAndPropertyConstraints()
   {
-    using var context = new ConfigurationTestContext();
+    using var context = CreateContext();
 
     var sql = context.Database.GenerateCreateScript();
 
@@ -29,7 +26,7 @@ public class PersistenceConfigurationTests
   [Fact]
   public void IssueProjectForeignKeyIncludesWorkspace()
   {
-    using var context = new ConfigurationTestContext();
+    using var context = CreateContext();
 
     var sql = context.Database.GenerateCreateScript();
 
@@ -50,7 +47,7 @@ public class PersistenceConfigurationTests
   public void ChildRecordsUseScopedForeignKeys(
     string childTable, string parentTable, string childColumns, string parentColumns)
   {
-    using var context = new ConfigurationTestContext();
+    using var context = CreateContext();
 
     var sql = context.Database.GenerateCreateScript();
 
@@ -64,7 +61,7 @@ public class PersistenceConfigurationTests
   [Fact]
   public void PostgreSqlSchemaDefinesChecksAndDeduplication()
   {
-    using var context = new ConfigurationTestContext();
+    using var context = CreateContext();
 
     var sql = context.Database.GenerateCreateScript();
 
@@ -83,7 +80,7 @@ public class PersistenceConfigurationTests
   [Fact]
   public void PostgreSqlModelIncludesAllCatalogEntitiesAndIdentityConstraints()
   {
-    using var context = new ConfigurationTestContext();
+    using var context = CreateContext();
 
     var sql = context.Database.GenerateCreateScript();
 
@@ -100,17 +97,6 @@ public class PersistenceConfigurationTests
     Assert.Contains("FOREIGN KEY (\"RecipientUserId\") REFERENCES \"AspNetUsers\" (\"Id\") ON DELETE RESTRICT", sql);
   }
 
-  private sealed class ConfigurationTestContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
-  {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-      optionsBuilder.UseNpgsql();
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      base.OnModelCreating(modelBuilder);
-      modelBuilder.ApplyConfigurationsFromAssembly(typeof(WorkspaceConfiguration).Assembly);
-    }
-  }
+  private static AppDbContext CreateContext() =>
+    new(new DbContextOptionsBuilder<AppDbContext>().UseNpgsql().Options);
 }

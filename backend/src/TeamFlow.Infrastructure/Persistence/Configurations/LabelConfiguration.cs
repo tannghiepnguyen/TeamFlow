@@ -8,6 +8,7 @@ public sealed class LabelConfiguration : IEntityTypeConfiguration<Label>
 {
   public void Configure(EntityTypeBuilder<Label> builder)
   {
+    builder.ToTable(nameof(Label));
     builder.HasKey(label => label.Id);
     builder.HasAlternateKey(label => new { label.WorkspaceId, label.Id });
 

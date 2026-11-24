@@ -9,6 +9,7 @@ public sealed class WorkspaceInvitationConfiguration : IEntityTypeConfiguration<
 {
   public void Configure(EntityTypeBuilder<WorkspaceInvitation> builder)
   {
+    builder.ToTable(nameof(WorkspaceInvitation));
     builder.HasKey(invitation => invitation.Id);
 
     builder.Property(invitation => invitation.EmailNormalized).IsRequired().HasMaxLength(256);

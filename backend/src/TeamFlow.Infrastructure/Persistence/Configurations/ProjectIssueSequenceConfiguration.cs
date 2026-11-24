@@ -8,6 +8,7 @@ public sealed class ProjectIssueSequenceConfiguration : IEntityTypeConfiguration
 {
   public void Configure(EntityTypeBuilder<ProjectIssueSequence> builder)
   {
+    builder.ToTable(nameof(ProjectIssueSequence));
     builder.HasKey(sequence => sequence.ProjectId);
 
     builder.Property(sequence => sequence.NextNumber).HasDefaultValue(1);

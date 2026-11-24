@@ -1,6 +1,6 @@
 # Verification and acceptance
 
-The backend integration test project checks PostgreSQL schema generation using a test-only context. The checks run without a database connection. Architecture tests verify the direct references declared in the production project files. Unit coverage is scaffolded, and the frontend test suite is planned. Add behavioral tests as releases implement the [functional requirements](../requirements/user-stories.md) and [quality targets](../requirements/scope.md).
+The backend integration test project checks PostgreSQL schema generation using `AppDbContext`. The schema checks run without a database connection. Architecture tests verify the direct references declared in the production project files. Unit coverage is scaffolded, and the frontend test suite is planned. Add behavioral tests as releases implement the [functional requirements](../requirements/user-stories.md) and [quality targets](../requirements/scope.md).
 
 ## Current checks
 
@@ -18,6 +18,8 @@ dotnet backend/tests/TeamFlow.IntegrationTests/bin/Debug/net11.0/TeamFlow.Integr
 dotnet backend/tests/TeamFlow.UnitTests/bin/Debug/net11.0/TeamFlow.UnitTests.dll
 dotnet backend/tests/TeamFlow.ArchitectureTests/bin/Debug/net11.0/TeamFlow.ArchitectureTests.dll
 ```
+
+Set `TEAMFLOW_TEST_POSTGRES` to a connection string for a disposable PostgreSQL server before running the integration test assembly to also test migrations and demo seeding. The test role needs permission to create and drop the randomly named databases created by the suite.
 
 From `frontend/`:
 

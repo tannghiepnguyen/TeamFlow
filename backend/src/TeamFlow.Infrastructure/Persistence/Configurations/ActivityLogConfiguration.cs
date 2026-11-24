@@ -9,6 +9,7 @@ public sealed class ActivityLogConfiguration : IEntityTypeConfiguration<Activity
 {
   public void Configure(EntityTypeBuilder<ActivityLog> builder)
   {
+    builder.ToTable(nameof(ActivityLog));
     builder.HasKey(activity => activity.Id);
 
     builder.Property(activity => activity.Action).IsRequired().HasMaxLength(60);

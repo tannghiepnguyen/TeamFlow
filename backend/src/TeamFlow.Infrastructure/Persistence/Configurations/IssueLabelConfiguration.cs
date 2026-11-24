@@ -8,6 +8,7 @@ public sealed class IssueLabelConfiguration : IEntityTypeConfiguration<IssueLabe
 {
   public void Configure(EntityTypeBuilder<IssueLabel> builder)
   {
+    builder.ToTable(nameof(IssueLabel));
     builder.HasKey(issueLabel => new { issueLabel.IssueId, issueLabel.LabelId });
 
     builder.HasOne<Issue>()

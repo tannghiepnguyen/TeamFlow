@@ -9,6 +9,7 @@ public sealed class OutboxMessageConfiguration : IEntityTypeConfiguration<Outbox
 {
   public void Configure(EntityTypeBuilder<OutboxMessage> builder)
   {
+    builder.ToTable(nameof(OutboxMessage));
     builder.HasKey(message => message.Id);
 
     builder.Property(message => message.EventType).IsRequired().HasMaxLength(150);

@@ -9,6 +9,7 @@ public sealed class SprintConfiguration : IEntityTypeConfiguration<Sprint>
 {
   public void Configure(EntityTypeBuilder<Sprint> builder)
   {
+    builder.ToTable(nameof(Sprint));
     builder.HasKey(sprint => sprint.Id);
     builder.HasAlternateKey(sprint => new { sprint.WorkspaceId, sprint.ProjectId, sprint.Id });
 
