@@ -8,7 +8,7 @@ The frontend and backend can run together locally. The backend includes the enti
 
 | Area | Current state |
 | --- | --- |
-| API | ASP.NET Core controller API with a sample weather endpoint, development OpenAPI, and Scalar |
+| API | ASP.NET Core controllers with an antiforgery token endpoint, development OpenAPI, and Scalar |
 | Backend layers | Domain entities and enums, plus Infrastructure models and EF Core configurations for the 16 TeamFlow models and custom Identity user fields |
 | Background processing | Worker project scaffolded |
 | Frontend | TanStack Start application with routing, query integration, Tailwind styling, and reusable UI primitives |
@@ -90,7 +90,7 @@ The frontend uses TanStack Start with server rendering and a Nitro production se
 - A .NET SDK capable of building `net11.0` projects. Check installed SDKs with `dotnet --list-sdks`.
 - Vite+ installed with `vp` on PATH. On Windows, the combined launcher invokes `vp.exe`.
 
-The frontend declares pnpm `12.21.0` in `frontend/package.json` and includes a pnpm lockfile. Use Vite+ for frontend dependency management and commands. PostgreSQL is optional for the sample API. See [Database migrations](doc/database/migrations.md) to create and seed a local database.
+The frontend declares pnpm `12.21.0` in `frontend/package.json` and includes a pnpm lockfile. Use Vite+ for frontend dependency management and commands. The app shell and antiforgery endpoint can run without PostgreSQL. See [Database migrations](doc/database/migrations.md) to create and seed a local database.
 
 ### Initial setup
 
@@ -151,11 +151,11 @@ vp run dev
 
 ## API proxy and configuration
 
-In development, the frontend forwards `/api/*` requests to the backend and removes the `/api` prefix:
+In development, Nitro forwards `/api/*` requests to the backend, where ASP.NET Core treats `/api` as the request's base path:
 
 ```text
-Browser:  /api/weatherforecast
-Backend:  https://localhost:7045/weatherforecast
+Browser:  /api/antiforgery/token
+Backend:  https://localhost:7045/api/antiforgery/token
 ```
 
 To use another backend target, create `frontend/.env.local` with:

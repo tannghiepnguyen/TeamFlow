@@ -1,11 +1,11 @@
-@TeamFlow.API_HostAddress = http://localhost:5107
+@TeamFlow.API_HostAddress = https://localhost:7045
 
 GET {{TeamFlow.API_HostAddress}}/openapi/v1.json
 Accept: application/json
 
 ###
 
-GET {{TeamFlow.API_HostAddress}}/weatherforecast/
+GET {{TeamFlow.API_HostAddress}}/antiforgery/token
 Accept: application/json
 
 ###

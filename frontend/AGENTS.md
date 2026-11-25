@@ -12,8 +12,8 @@ These instructions supplement `../AGENTS.md` for `frontend/`. Preserve the Vite+
 - Do not edit `src/routeTree.gen.ts` by hand; regenerate through the configured tooling (`vp run generate-routes` invokes the build).
 
 ## API and server rendering
-- Browser API requests use relative `/api/...` URLs. `vite.config.ts` removes `/api` and forwards requests to `API_PROXY_TARGET` or `https://localhost:7045` in development.
-- The current sample is `/api/weatherforecast` in the browser and `/weatherforecast` on the backend. Do not assume versioned routes exist.
+- Browser API requests use relative `/api/...` URLs. Nitro forwards them with the prefix intact to `API_PROXY_TARGET` or `https://localhost:7045` in development. The API uses `/api` as a development base path.
+- Do not assume versioned routes exist.
 - Development certificate verification is disabled only in the local proxy. Production requires a deliberate API routing/proxy arrangement; Vite's dev proxy is not production configuration.
 - Centralize shared backend request/error handling when adding real features. Keep response types aligned with backend DTOs; do not assume an API generator exists.
 - TanStack Start renders on the server: keep browser-only APIs out of server execution and secrets out of client bundles. Do not move backend business rules into frontend server functions.

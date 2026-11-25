@@ -11,14 +11,14 @@ pnpm dev
 
 ## Backend proxy (development)
 
-The dev server forwards `/api/*` requests to `https://localhost:7045`, removing
-the `/api` prefix. Start the backend with its HTTPS profile:
+The Nitro dev server forwards `/api/*` requests to `https://localhost:7045`.
+ASP.NET Core uses `/api` as its development base path. Start the backend with its HTTPS profile:
 
 ```bash
 dotnet run --project ../backend/src/TeamFlow.API --launch-profile https
 ```
 
-Call the backend using relative URLs, for example `fetch("/api/weatherforecast")`.
+Use the shared client in `src/lib/api.ts` with relative `/api/...` paths. The client fetches the antiforgery token automatically before writes.
 To use another backend, set `API_PROXY_TARGET` in `.env.local` and restart the
 frontend dev server:
 

@@ -28,7 +28,7 @@ Use `npm.cmd run dev` if PowerShell blocks the npm script. Trust the ASP.NET dev
 
 Ctrl+C stops the two hosts. If one exits, the launcher stops the other. For separate terminals, run `dotnet watch run --project backend/src/TeamFlow.API --launch-profile https` from the root and `vp run dev` from `frontend/`. The combined launcher starts the API and frontend only. The Worker can be started separately with `dotnet run --project backend/src/TeamFlow.Worker` to exercise its scaffold.
 
-Browser calls to `/api/*` go through Vite and lose the `/api` prefix. Set `API_PROXY_TARGET` in `frontend/.env.local` and restart the frontend to override the default `https://localhost:7045`. Keep certificate-validation relaxation confined to the local development proxy.
+Nitro forwards browser calls to `/api/*` with the prefix intact. ASP.NET Core uses `/api` as its development base path. Set `API_PROXY_TARGET` in `frontend/.env.local` and restart the frontend to override the default `https://localhost:7045`. Keep certificate-validation relaxation confined to the local development proxy.
 
 ## Planned database setup
 

@@ -8,7 +8,7 @@
 | PowerShell policy blocks npm | Run `npm.cmd run dev` from the root. |
 | SDK cannot target the project | Run `dotnet --list-sdks` and verify that the SDK supports `net11.0`. |
 | One host stops just after launch | Read the first host error. Run hosts separately per [local setup](../development/setup.md) to isolate port or startup failures. |
-| Proxy errors or unexpected 404 | Check `https://localhost:7045/weatherforecast` directly and `http://localhost:3000/api/weatherforecast` through Vite. Verify `API_PROXY_TARGET` and the prefix rewrite. |
+| Proxy errors or unexpected 404 | Check `https://localhost:7045/api/antiforgery/token` directly and `http://localhost:3000/api/antiforgery/token` through Nitro. Verify `API_PROXY_TARGET` and the API's Development environment. |
 | Local browser warns about HTTPS | Check the API launch profile and trust the ASP.NET development certificate when necessary. |
 | Scalar/OpenAPI missing | Confirm the API uses the Development environment and check the routes in the [setup guide](../development/setup.md). |
 

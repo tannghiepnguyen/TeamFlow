@@ -17,7 +17,7 @@ These instructions supplement `../AGENTS.md` for `backend/`.
 - Add project references deliberately when implementing layers. Avoid introducing generic repositories, mediator packages, or redundant service layers without a concrete need.
 
 ## API behavior
-- Inspect existing routes before adding endpoints. The current sample uses `/weatherforecast`; the frontend development proxy forwards `/api/weatherforecast` to it.
+- Inspect existing routes before adding endpoints. The API uses `/api` as a development base path for requests from the frontend proxy.
 - If adopting versioned routes, update the proxy, callers, and documentation together to avoid stripping or doubling prefixes.
 - Use request/response DTOs, validate body/route/query values, and preserve domain invariants independently of request validation.
 - Use Problem Details for new API errors and consistent status codes: 400 validation, 401 unauthenticated, 403 forbidden, 404 missing or intentionally concealed, 409 conflicts.

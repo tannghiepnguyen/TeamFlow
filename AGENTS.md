@@ -31,7 +31,7 @@ From `frontend/`, run `vp run build` and `vp check`. Run applicable tests with `
 - Use English for identifiers and technical documentation unless localization is requested.
 - Backend owns business rules, authorization, and persistence constraints. Frontend validation improves usability and does not establish authorization.
 - Update backend contracts and frontend callers together. Use generated API types only if generation is configured; never hand-edit generated outputs.
-- The development proxy currently removes `/api` before forwarding. Coordinate proxy and endpoint changes; do not assume `/api/v1` is already configured.
+- The Nitro development proxy forwards `/api` intact. The API uses it as a development base path. Coordinate proxy and endpoint changes; do not assume `/api/v1` is already configured.
 - Use UTC for persisted timestamps and user-local time for display. Prefer Guid identifiers for new business entities unless an established model requires otherwise.
 - Explain the purpose and trade-offs of new dependencies. Do not add abstractions solely for hypothetical future needs.
 

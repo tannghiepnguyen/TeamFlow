@@ -11,16 +11,6 @@ const config = defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "API_PROXY_TARGET");
 
   return {
-    server: {
-      proxy: {
-        "/api": {
-          target: env.API_PROXY_TARGET || "https://localhost:7045",
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/api(?=\/|\?|$)/, "") || "/",
-        },
-      },
-    },
     fmt: {},
     lint: {
       jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
@@ -30,7 +20,16 @@ const config = defineConfig(({ mode }) => {
     resolve: { tsconfigPaths: true },
     plugins: lazyPlugins(() => [
       devtools(),
-      nitro({ rollupConfig: { external: [/^@sentry\//] } }),
+      nitro({
+        devProxy: {
+          "/api/**": {
+            target: env.API_PROXY_TARGET || "https://localhost:7045",
+            changeOrigin: true,
+            secure: false,
+          },
+        },
+        rollupConfig: { external: [/^@sentry\//] },
+      }),
       tailwindcss(),
       tanstackStart(),
       viteReact(),

@@ -6,7 +6,7 @@ TeamFlow is designed as a modular monolith for project and issue management, wit
 
 | Area | Current state |
 | --- | --- |
-| API | ASP.NET Core controllers, a sample weather endpoint, and development OpenAPI/Scalar |
+| API | ASP.NET Core controllers, an antiforgery token endpoint, and development OpenAPI/Scalar |
 | Domain | Entity and enum definitions for the planned workflows |
 | Application | Scaffold for use cases |
 | Infrastructure | Initial EF Core/Npgsql mappings, Identity user profile type, issue sequence record, outbox record, and processing ledger |
@@ -15,9 +15,9 @@ TeamFlow is designed as a modular monolith for project and issue management, wit
 | Tests | Generated PostgreSQL schema checks for the initial mappings, plus scaffold tests |
 
 ```text
-Browser -> TanStack Start/Vite (localhost:3000)
+Browser -> TanStack Start/Nitro (localhost:3000)
            /api/* -> development proxy -> ASP.NET Core API (localhost:7045)
-                      strips /api          GET /weatherforecast
+                                          uses /api as the development base path
 ```
 
 [Root README](../../README.md) documents the active launcher and configuration. An application DbContext, database setup, authentication, tenant policies, outbox processing, and business endpoints remain planned.

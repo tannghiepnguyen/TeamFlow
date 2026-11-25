@@ -1,6 +1,6 @@
 # API conventions and proposed routes
 
-The current controller sample is `GET /weatherforecast`. Its browser-facing development path is `/api/weatherforecast` because Vite strips `/api` before forwarding. OpenAPI and Scalar are available in Development. Coordinate the planned versioned route prefix with backend routes, frontend callers, development proxy and production ingress.
+Nitro forwards browser requests under `/api`, and the development API uses `/api` as its base path. OpenAPI and Scalar are available in Development. Coordinate the planned versioned route prefix with backend routes, frontend callers, development proxy and production ingress.
 
 ## Request and response rules
 
@@ -10,6 +10,19 @@ The current controller sample is `GET /weatherforecast`. Its browser-facing deve
 - Paginate unbounded lists with a documented cap and stable sorting. Specify allowed filters, sort keys, tie-breaker, page parameters and response envelope when implemented.
 - Use same-site Identity cookies and antiforgery validation on state-changing browser requests. Define the token exchange, cookie attributes and allowed origins in the [hosting decision](../architecture/decisions/0002-identity-and-app-contexts.md).
 - For optimistic concurrency, accept the expected version and condition the write on it. Keep frontend types and conflict handling aligned with OpenAPI.
+
+## Browser antiforgery
+
+Use the same-origin `/api` proxy for browser requests. Before a write, the shared
+client requests `GET /api/antiforgery/token`. The API sets an HTTP-only
+antiforgery cookie and returns a non-cacheable JSON body with a `requestToken`.
+The client sends that value in `X-CSRF-TOKEN` alongside the cookie. MVC validates
+the pair on unsafe methods and returns HTTP 400 if validation fails.
+
+The request token is tied to the current principal. After a session change, the
+client obtains a new token before its next write. Configure production ingress
+to serve the API under the same origin over HTTPS and strip `/api` before
+forwarding to the production backend.
 
 ## Proposed surface
 

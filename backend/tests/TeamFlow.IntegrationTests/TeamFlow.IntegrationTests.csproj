@@ -14,8 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="11.0.0" />
     <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.3" />
+    <ProjectReference Include="..\..\src\TeamFlow.API\TeamFlow.API.csproj" />
     <ProjectReference Include="..\..\src\TeamFlow.Infrastructure\TeamFlow.Infrastructure.csproj" />
   </ItemGroup>
 

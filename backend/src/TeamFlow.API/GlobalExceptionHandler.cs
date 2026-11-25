@@ -23,9 +23,7 @@ public class GlobalExceptionHandler(IProblemDetailsService problemDetailsService
             ProblemDetails =
             {
                 Title = "An error occurred",
-                Status = httpContext.Response.StatusCode,
-                Detail = exception.Message,
-                Type = exception.GetType().Name
+                Status = httpContext.Response.StatusCode
             },
             Exception = exception
         });
@@ -34,9 +32,7 @@ public class GlobalExceptionHandler(IProblemDetailsService problemDetailsService
             await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
             {
                 Title = "An error occurred",
-                Status = httpContext.Response.StatusCode,
-                Detail = exception.Message,
-                Type = exception.GetType().Name
+                Status = httpContext.Response.StatusCode
             }, cancellationToken: cancellationToken);
         }
         return true;
