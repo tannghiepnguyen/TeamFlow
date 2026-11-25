@@ -80,4 +80,17 @@ public static class ServiceExtensions
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         });
     }
+
+    public static void ConfigureAntiForgery(this IServiceCollection services, IHostEnvironment environment)
+    {
+        services.AddAntiforgery(options =>
+        {
+            options.HeaderName = "X-CSRF-TOKEN";
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SameSite = SameSiteMode.Lax;
+            options.Cookie.SecurePolicy = environment.IsDevelopment()
+                ? CookieSecurePolicy.SameAsRequest
+                : CookieSecurePolicy.Always;
+        });
+    }
 }

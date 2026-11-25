@@ -13,14 +13,6 @@ builder.Services.AddControllersWithViews(options => options.Filters.Add(new Auto
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-builder.Services.AddAntiforgery(options =>
-{
-    options.HeaderName = "X-CSRF-TOKEN";
-    options.SuppressReadingTokenFromFormBody = true;
-    options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
-        ? CookieSecurePolicy.SameAsRequest
-        : CookieSecurePolicy.Always;
-});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.ConfigureDatabase(builder.Configuration, builder.Environment);
@@ -30,6 +22,7 @@ builder.Services.ConfigureGlobalException();
 builder.Services.ConfigureCookie();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
+builder.Services.ConfigureAntiForgery(builder.Environment);
 
 var app = builder.Build();
 
