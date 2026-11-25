@@ -273,6 +273,10 @@ __pycache__/
 # tools/
 
 ### DotnetCore ###
+# Local .NET application settings
+appsettings.json
+appsettings.*.json
+
 # .NET Core build folders
 bin/
 obj/
