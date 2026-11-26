@@ -1,9 +1,20 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
+using TeamFlow.API;
 using TeamFlow.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddSimpleConsole(options =>
+{
+    // ASP.NET Core's hosting scope contains the raw request path.
+    options.IncludeScopes = false;
+    options.SingleLine = true;
+    options.TimestampFormat = "yyyy-MM-dd'T'HH:mm:ss.fff'Z' ";
+    options.UseUtcTimestamp = true;
+});
+builder.Logging.AddFilter("Microsoft.AspNetCore.Hosting.Diagnostics", LogLevel.Warning);
 
 // Add services to the container.
 
@@ -34,7 +45,11 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-app.UseExceptionHandler(opt => { });
+app.UseMiddleware<RequestLoggingMiddleware>();
+
+app.UseAntiforgery();
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 

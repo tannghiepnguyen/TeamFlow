@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace TeamFlow.API;
 
-public class GlobalExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
+public class GlobalExceptionHandler(
+    IProblemDetailsService problemDetailsService,
+    ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
+        logger.LogError("Unhandled exception {ExceptionType} (request {RequestId}): {StackTrace}",
+            exception.GetType().FullName, httpContext.TraceIdentifier, new StackTrace(exception, fNeedFileInfo: false).ToString());
+
         httpContext.Response.ContentType = "application/json";
         httpContext.Response.StatusCode = exception switch
         {

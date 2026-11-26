@@ -1,9 +1,6 @@
-using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http.Json;
-using System.Xml.Linq;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -52,15 +49,6 @@ public sealed class AntiforgeryTests
         browser.DefaultRequestHeaders.Add("X-CSRF-TOKEN", token.RequestToken);
         using var accepted = await browser.PostAsync("/api/test/antiforgery", null, cancellationToken);
         Assert.Equal(HttpStatusCode.NoContent, accepted.StatusCode);
-    }
-
-    private sealed class InMemoryKeyRepository : IXmlRepository
-    {
-        private readonly ConcurrentQueue<XElement> elements = new();
-
-        public IReadOnlyCollection<XElement> GetAllElements() => elements.ToArray();
-
-        public void StoreElement(XElement element, string friendlyName) => elements.Enqueue(new XElement(element));
     }
 }
 

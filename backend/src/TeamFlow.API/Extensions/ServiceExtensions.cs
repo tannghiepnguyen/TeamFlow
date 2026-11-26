@@ -62,7 +62,7 @@ public static class ServiceExtensions
                 .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .WithExposedHeaders("X-Pagination"));
+                .WithExposedHeaders("X-Pagination", RequestLoggingMiddleware.RequestIdHeader));
     });
     
     public static void ConfigureGlobalException(this IServiceCollection services)

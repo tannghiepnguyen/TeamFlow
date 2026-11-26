@@ -170,6 +170,14 @@ The current API does not establish a versioned `/api/v1` convention. If endpoint
 
 Keep secrets out of source control and browser bundles. The API reads its PostgreSQL connection from `ConnectionStrings:TeamFlow`, with `ConnectionStrings:DefaultConnection` as a fallback.
 
+## Trace API requests
+
+Run `npm run dev` and open the browser’s Network tab. Select an API request, copy its `X-Request-Id` response header, and search the terminal output for that ID. For a quick check, open `http://localhost:3000/api/antiforgery/token` with the Network tab open.
+
+API request logs include the HTTP method, route template, status code, and elapsed time. Successful requests and redirects appear at Information, client errors at Warning, and server errors at Error. The console prints the request ID on the request summary and any corresponding unhandled exception log. The request summary uses the route template and omits query strings, headers, cookies, and bodies. The exception log records the exception type and stack frames.
+
+Set `Logging__LogLevel__TeamFlow` to `Debug` in the process environment to see TeamFlow’s debug messages. When the Worker runs separately, the same setting shows its heartbeat.
+
 ## Build and validation
 
 Backend, from the repository root:
